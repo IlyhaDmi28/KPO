@@ -1,0 +1,5 @@
+﻿  WorkData.cpp
+D:\KPO\DeSerialization\WorkData.cpp(18,12): warning C4244: return: преобразование "__int64" в "int", возможна потеря данных
+D:\KPO\DeSerialization\WorkData.cpp(24,45): warning C4129: : неизвестная escape-последовательность
+D:\KPO\DeSerialization\WorkData.cpp(25,45): warning C4129: : неизвестная escape-последовательность
+  DeSerialization.vcxproj -> D:\KPO\Lab4\Debug\DeSerialization.exe
