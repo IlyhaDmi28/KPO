@@ -1,0 +1,155 @@
+Microsoft (R) Macro Assembler Version 14.33.31629.0	    10/29/22 12:16:45
+SE_asm01.asm						     Page 1 - 1
+
+
+				.586P
+				.MODEL FLAT, STDCALL
+				includelib kernel32.lib
+				includelib msvcrt.lib
+				includelib ucrt.lib
+
+				ExitProcess			PROTO : DWORD
+
+
+				getmin				PROTO : DWORD, : DWORD
+				getmax				PROTO : DWORD, : DWORD
+
+				.STACK 4096
+
+ 00000000			.CONST
+
+ 00000000			.DATA
+
+ 00000000 00000058		array    DD  88, 22, 99, 693, 67, 10, 7, 45, 56, 77
+	   00000016
+	   00000063
+	   000002B5
+	   00000043
+	   0000000A
+	   00000007
+	   0000002D
+	   00000038
+	   0000004D
+ = 0000000A			arrCount EQU 10
+
+ 00000028 00000000		min      DD  ?
+ 0000002C 00000000		max      DD  ?
+
+
+ 00000000			.CODE
+
+ 00000000			main PROC
+
+					INVOKE getmin, offset array, arrCount
+
+ 0000000C  A3 00000028 R		mov min, EAX
+
+					INVOKE getmax, offset array, arrCount
+
+ 0000001D  A3 0000002C R		mov max, EAX
+
+ 00000022  6A FF			push - 1
+ 00000024  E8 00000000 E		call ExitProcess
+
+ 00000029			main ENDP
+
+ 00000029			getmin PROC Pointer: DWORD, Count: DWORD
+
+ 0000002C  8B 75 08			mov ESI, Pointer
+
+ 0000002F  8B 06			mov EAX, [ESI]
+
+ 00000031  B9 00000000			mov ECX, 0
+
+					.WHILE ECX < Count
+						
+ 00000038  8B 1C 8E				mov EBX, [ESI + (ECX * 4)]
+						
+						.IF EBX < EAX
+ 0000003F  8B C3					mov EAX, EBX
+						.ENDIF
+
+ 00000041  41					inc ECX
+
+					.ENDW
+
+					ret
+
+ 0000004B			getmin ENDP
+
+ 0000004B			getmax PROC Pointer: DWORD, Count: DWORD
+
+ 0000004E  8B 75 08			mov ESI, Pointer
+
+ 00000051  8B 06			mov EAX, [ESI]
+
+ 00000053  B9 00000000			mov ECX, 0
+
+					.WHILE ECX < Count
+						
+ 0000005A  8B 1C 8E				mov EBX, [ESI + (ECX * 4)]
+						
+						.IF EBX > EAX
+ 00000061  8B C3					mov EAX, EBX
+						.ENDIF
+
+ 00000063  41					inc ECX
+
+					.ENDW
+
+					ret
+
+ 0000006D			getmax ENDP
+					
+				end main
+Microsoft (R) Macro Assembler Version 14.33.31629.0	    10/29/22 12:16:45
+SE_asm01.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CONST  . . . . . . . . . . . . .	32 Bit	 00000000 Para	  Public  'CONST'	 ReadOnly
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000030 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000006D Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+ExitProcess  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+getmax . . . . . . . . . . . . .	P Near	 0000004B _TEXT	Length= 00000022 Public STDCALL
+  Pointer  . . . . . . . . . . .	DWord	 bp + 00000008
+  Count  . . . . . . . . . . . .	DWord	 bp + 0000000C
+getmin . . . . . . . . . . . . .	P Near	 00000029 _TEXT	Length= 00000022 Public STDCALL
+  Pointer  . . . . . . . . . . .	DWord	 bp + 00000008
+  Count  . . . . . . . . . . . .	DWord	 bp + 0000000C
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000029 Public STDCALL
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000003h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+arrCount . . . . . . . . . . . .	Number	 0000000Ah   
+array  . . . . . . . . . . . . .	DWord	 00000000 _DATA	
+max  . . . . . . . . . . . . . .	DWord	 0000002C _DATA	
+min  . . . . . . . . . . . . . .	DWord	 00000028 _DATA	
+
+	   0 Warnings
+	   0 Errors
